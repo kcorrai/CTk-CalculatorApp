@@ -1,7 +1,8 @@
 import darkdetect
 import customtkinter as ctk
 from settings import *
-from buttons import Button
+from buttons import Button, ImageButton
+from PIL import Image
 try:
     from ctypes import windll, byref, sizeof, c_int
 except:
@@ -40,6 +41,9 @@ class Calculator(ctk.CTk):
         
         Button(self, text=OPERATORS['clear']['text'], func=self.clear, col=OPERATORS['clear']['col'], row=OPERATORS['clear']['row'], font=main_font)
         Button(self, text=OPERATORS['percent']['text'], func=self.percent, col=OPERATORS['percent']['col'], row=OPERATORS['percent']['row'], font=main_font)
+        #invert button
+        invert_image = ctk.CTkImage(light_image=Image.open(OPERATORS['invert']['image_path']['light']), dark_image=Image.open(OPERATORS['invert']['image_path']['dark']))
+        ImageButton(self, text=OPERATORS['invert']['text'], func=self.invert, col=OPERATORS['invert']['col'], row=OPERATORS['invert']['row'], font=main_font, image=invert_image)
             
     def title_bar_color(self, is_dark):
         try:
@@ -55,6 +59,9 @@ class Calculator(ctk.CTk):
         
     def percent(self):
         print('percent')
+    
+    def invert(self):
+        print('invert')
             
 class OutputLabel(ctk.CTkLabel):
     def __init__(self, parent, row, anchor, font, string_var):
