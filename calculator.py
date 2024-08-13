@@ -1,7 +1,7 @@
 import darkdetect
 import customtkinter as ctk
 from settings import *
-from buttons import Button, ImageButton
+from buttons import Button, ImageButton, NumButton, MathButton, MathImageButton
 from PIL import Image
 try:
     from ctypes import windll, byref, sizeof, c_int
@@ -39,11 +39,22 @@ class Calculator(ctk.CTk):
         OutputLabel(self, 0, 'SE', main_font, self.formula_string)
         OutputLabel(self, 1, 'E', result_font, self.result_string)
         
-        Button(self, text=OPERATORS['clear']['text'], func=self.clear, col=OPERATORS['clear']['col'], row=OPERATORS['clear']['row'], font=main_font)
-        Button(self, text=OPERATORS['percent']['text'], func=self.percent, col=OPERATORS['percent']['col'], row=OPERATORS['percent']['row'], font=main_font)
+        Button(self, text=OPERATORS['clear']['text'], func=self.clear, col=OPERATORS['clear']['col'], row=OPERATORS['clear']['row'], font=main_font, span=1)
+        Button(self, text=OPERATORS['percent']['text'], func=self.percent, col=OPERATORS['percent']['col'], row=OPERATORS['percent']['row'], font=main_font, span=1)
         #invert button
-        invert_image = ctk.CTkImage(light_image=Image.open(OPERATORS['invert']['image_path']['light']), dark_image=Image.open(OPERATORS['invert']['image_path']['dark']))
+        self.new_size = (1024,1024)
+        invert_image = ctk.CTkImage(light_image=Image.open(OPERATORS['invert']['image_path']['light']).resize(self.new_size), dark_image=Image.open(OPERATORS['invert']['image_path']['dark']).resize(self.new_size))
         ImageButton(self, text=OPERATORS['invert']['text'], func=self.invert, col=OPERATORS['invert']['col'], row=OPERATORS['invert']['row'], font=main_font, image=invert_image)
+            
+        for num, data in NUM_POSITIONS.items():
+            NumButton(self, text=num, func=self.num_press, col=data['col'], row=data['row'], font=main_font, span=data['span'])    
+
+        for operator, data in MATH_POSITIONS.items():
+            if data['image_path']:
+                divide_image = ctk.CTkImage(light_image=Image.open(data['image_path']['dark']), dark_image=Image.open(data['image_path']['light']).resize((512,512)))
+                MathImageButton(self, text='', func=self.math_press, operator=operator, col=data['col'], row=data['row'], font=main_font, image=divide_image)
+            else:
+                MathButton(self, text=data['character'], operator=operator, func=self.math_press, col=data['col'], row=data['row'], font=main_font, span=1)
             
     def title_bar_color(self, is_dark):
         try:
@@ -53,7 +64,13 @@ class Calculator(ctk.CTk):
             windll.dwmapi.DwmSetWindowAttribute(HWND, DWMWA_ATTRIBUTE, byref(c_int(COLOR)), sizeof(c_int))
         except:
             pass
-
+        
+    def num_press(self, value):
+        print(value)
+    
+    def math_press(self, value):
+        print(value)
+    
     def clear(self):
         print('clear')
         
@@ -69,4 +86,4 @@ class OutputLabel(ctk.CTkLabel):
         self.grid(column=0, columnspan=4, row=row, sticky=anchor)
                     
 if __name__ == '__main__':
-    Calculator(darkdetect.isDark())
+    Calculator(darkdetect.isLight())

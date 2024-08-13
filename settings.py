@@ -28,7 +28,7 @@ NUM_POSITIONS = {
 }
 
 MATH_POSITIONS = {
-    '/': {'col':3, 'row':2, 'character':'', 'operator':'/', 'image_path': {'light':'img/divide-light.png', 'dark':'img/divide-dark.png'}},
+    '/': {'col':3, 'row':2, 'character':'?', 'operator':'/', 'image_path': {'light':'img/divide-light.png', 'dark':'img/divide-dark.png'}},
     '*': {'col':3, 'row':3, 'character':'x', 'operator':'*', 'image_path': None},
     '-': {'col':3, 'row':4, 'character':'-', 'operator':'-', 'image_path': None},
     '=': {'col':3, 'row':6, 'character':'=', 'operator':'=', 'image_path': None},
@@ -44,7 +44,7 @@ OPERATORS = {
 COLORS = {
     'light-gray': {'fg':('#505050','#d4d4d2'), 'hover':('#686868','#efefed'), 'text':('white','black')},
     'dark-gray': {'fg':('#d4d4d2','#505050'), 'hover':('#efefed','#686868'), 'text':('black','white')},
-    'orange': {'fg': '#ff9500', 'hover':'white', 'text':('black','#ff9500')},
+    'orange': {'fg': '#ff9500', 'hover':'white', 'text':('black','white')},
     'orange-highlight': {'fg': 'white', 'hover':'white', 'text':('black','#ff9500')},
 }
 
